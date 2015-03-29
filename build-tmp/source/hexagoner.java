@@ -98,7 +98,7 @@ class Grid{
 class Hexagon
 {
 	float angle = 60, startAngle = 30, r;
-	PShape[] hexagon = new PShape[6];	
+	PShape hexagon;	
 	int[] cores;
 	
 	Hexagon(float r, int[] cores)
@@ -116,22 +116,22 @@ class Hexagon
 
 	public void createHexagon()
 	{
+		hexagon = createShape(GROUP);
+
 		for(int i = 0; i < 6; i++)
 		{
 			float prox = i + 1;
-			hexagon[i] = createShape(TRIANGLE,0, 0, cos(radians(i * angle + startAngle)) * r, sin(radians(i * angle + startAngle)) * r, cos(radians(prox * angle + startAngle)) * r, sin(radians(prox * angle + startAngle)) * r);
-			hexagon[i].setStroke(cores[i]);
-			hexagon[i].setFill(cores[i]);
+			PShape triangule = createShape(TRIANGLE,0, 0, cos(radians(i * angle + startAngle)) * r, sin(radians(i * angle + startAngle)) * r, cos(radians(prox * angle + startAngle)) * r, sin(radians(prox * angle + startAngle)) * r);
+			triangule.setStroke(cores[i]);
+			triangule.setFill(cores[i]);
+			hexagon.addChild(triangule);
 		}	
 		
 	}
 
 	public void draw() 
 	{
-		for(int i = 0; i < 6; i++)
-		{
-			shape(hexagon[i]);
-		}
+		shape(hexagon);
 	}
 
 
