@@ -3,6 +3,8 @@ import processing.data.*;
 import processing.event.*; 
 import processing.opengl.*; 
 
+import java.util.*; 
+
 import java.util.HashMap; 
 import java.util.ArrayList; 
 import java.io.File; 
@@ -14,7 +16,9 @@ import java.io.IOException;
 
 public class hexagoner extends PApplet {
 
-ArrayList<ArrayList<Hexagon>> hexagons = new ArrayList<ArrayList<Hexagon>>();
+
+
+List<List<Hexagon>> hexagons = new ArrayList<List<Hexagon>>();
 float raio = 30;
 Grid grid;
 int[][] cores = {{0xff5A5A5A, 0xffFFFFFF, 0xffFFFFFF, 0xffFC8108, 0xffFC8108, 0xff5A5A5A},
@@ -32,12 +36,19 @@ public void setup() {
   smooth(8);
   generateHexagons();
   grid = new Grid(hexagons);
+
+
 }
 
 public void draw() {
   background(255);  
   grid.draw();  
 
+  if(frameCount % 30 == 0)
+  {
+    mouseClicked();
+    println("teste");
+  }
 }
 
 public void mouseClicked()
@@ -48,25 +59,29 @@ public void mouseClicked()
 
 public void generateHexagons()
 {
-  for(int i = 0; i < 15; i++)
+
+  synchronized(hexagons)
   {
-    ArrayList<Hexagon> temp = new ArrayList<Hexagon>();
-    for(int j = 0; j < 30; j++)
-    {     
-      temp.add(new Hexagon(raio, cores[PApplet.parseInt(random(2))]));  
-      //temp.add(new Hexagon(raio));  
-      //temp.add(new Hexagon(raio, cores[0]));        
+    for(int i = 0; i < 15; i++)
+    {
+      ArrayList<Hexagon> temp = new ArrayList<Hexagon>();
+      for(int j = 0; j < 30; j++)
+      {     
+        temp.add(new Hexagon(raio, cores[PApplet.parseInt(random(2))]));  
+      }
+      hexagons.add(temp);
+
     }
-    hexagons.add(temp);
+  
   }
 }
 class Grid{
 
-  ArrayList<ArrayList<Hexagon>> matrix;
+  List<List<Hexagon>> matrix;
   int rows, cols;
   float altura, largura;
 
-  Grid(ArrayList<ArrayList<Hexagon>> matrix)
+  Grid(List<List<Hexagon>> matrix)
   { 
     this.matrix = matrix;
     this.altura = matrix.get(0).get(0).r * 1.532f;
@@ -77,7 +92,7 @@ class Grid{
   {
     float rowOffset = altura, colOffset = largura/2;
 
-    for(ArrayList<Hexagon> col : matrix)
+    for(List<Hexagon> col : matrix)
     {           
       pushMatrix();
       for(Hexagon row : col)

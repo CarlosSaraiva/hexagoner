@@ -1,4 +1,6 @@
-ArrayList<ArrayList<Hexagon>> hexagons = new ArrayList<ArrayList<Hexagon>>();
+import java.util.*;
+
+List<List<Hexagon>> hexagons = new ArrayList<List<Hexagon>>();
 float raio = 30;
 Grid grid;
 color[][] cores = {{#5A5A5A, #FFFFFF, #FFFFFF, #FC8108, #FC8108, #5A5A5A},
@@ -16,12 +18,19 @@ void setup() {
   smooth(8);
   generateHexagons();
   grid = new Grid(hexagons);
+
+
 }
 
 void draw() {
   background(255);  
   grid.draw();  
 
+  if(frameCount % 30 == 0)
+  {
+    mouseClicked();
+    println("teste");
+  }
 }
 
 void mouseClicked()
@@ -32,15 +41,19 @@ void mouseClicked()
 
 void generateHexagons()
 {
-  for(int i = 0; i < 15; i++)
+
+  synchronized(hexagons)
   {
-    ArrayList<Hexagon> temp = new ArrayList<Hexagon>();
-    for(int j = 0; j < 30; j++)
-    {     
-      temp.add(new Hexagon(raio, cores[int(random(2))]));  
-      //temp.add(new Hexagon(raio));  
-      //temp.add(new Hexagon(raio, cores[0]));        
+    for(int i = 0; i < 15; i++)
+    {
+      ArrayList<Hexagon> temp = new ArrayList<Hexagon>();
+      for(int j = 0; j < 30; j++)
+      {     
+        temp.add(new Hexagon(raio, cores[int(random(2))]));  
+      }
+      hexagons.add(temp);
+
     }
-    hexagons.add(temp);
+  
   }
 }

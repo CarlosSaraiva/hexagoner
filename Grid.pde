@@ -1,10 +1,10 @@
 class Grid{
 
-  ArrayList<ArrayList<Hexagon>> matrix;
+  List<List<Hexagon>> matrix;
   int rows, cols;
   float altura, largura;
 
-  Grid(ArrayList<ArrayList<Hexagon>> matrix)
+  Grid(List<List<Hexagon>> matrix)
   { 
     this.matrix = matrix;
     this.altura = matrix.get(0).get(0).r * 1.532;
@@ -15,7 +15,7 @@ class Grid{
   {
     float rowOffset = altura, colOffset = largura/2;
 
-    for(ArrayList<Hexagon> col : matrix)
+    for(List<Hexagon> col : matrix)
     {           
       pushMatrix();
       for(Hexagon row : col)
