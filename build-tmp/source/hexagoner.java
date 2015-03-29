@@ -30,21 +30,18 @@ int[][] cores = {{0xff5A5A5A, 0xffFFFFFF, 0xffFFFFFF, 0xffFC8108, 0xffFC8108, 0x
                    //{#FFFFFF, #FFFFFF, #FFFFFF, #5A5A5A, #5A5A5A, #5A5A5A},
                   };
 
-
 public void setup() {
   size(1290, 720, P2D);
   smooth(8);
   generateHexagons();
   grid = new Grid(hexagons);
-
-
 }
 
 public void draw() {
   background(255);  
   grid.draw();  
 
-  if(frameCount % 30 == 0)
+  if(frameCount % 15 == 0)
   {
     mouseClicked();
     println("teste");
@@ -62,15 +59,14 @@ public void generateHexagons()
 
   synchronized(hexagons)
   {
-    for(int i = 0; i < 15; i++)
+    for(int i = 0; i < 25; i++)
     {
       ArrayList<Hexagon> temp = new ArrayList<Hexagon>();
-      for(int j = 0; j < 30; j++)
+      for(int j = 0; j < 25; j++)
       {     
         temp.add(new Hexagon(raio, cores[PApplet.parseInt(random(2))]));  
       }
       hexagons.add(temp);
-
     }
   
   }
